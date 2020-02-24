@@ -1,3 +1,9 @@
+## App is deployed on Firbase and live at:
+
+https://react-hooks-books-manager.firebaseapp.com/
+
+This app is using react-hooks and fetch api.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

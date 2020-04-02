@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 
 import BookTable from "./tables/BookTable";
@@ -6,6 +6,7 @@ import AddBookForm from "./forms/AddBookForm";
 import EditBookForm from "./forms/EditBookForm";
 import Search from "./forms/Search";
 import ErrorModal from "../src/UI/ErrorModal";
+import Notification from "../src/UI/Notification";
 
 function Books() {
   const [books, setBooks] = useState([]);
@@ -15,6 +16,7 @@ function Books() {
   const [currentBook, setCurrentBook] = useState(initialFormState);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState();
+  const [notify, setNotify] = useState("");
 
   const filteredBooksHandler = useCallback(filteredBooks => {
     setBooks(filteredBooks);
@@ -42,6 +44,20 @@ function Books() {
         );
       });
   };
+
+  useEffect(() => {
+    window.addEventListener("online", () => {
+      setNotify("online");
+    });
+
+    window.addEventListener("offline", () => {
+      setNotify("offline");
+    });
+    return () => {
+      window.removeEventListener("online");
+      window.removeEventListener("offline");
+    };
+  }, []);
 
   const addBook = book => {
     setIsLoading(true);
@@ -83,10 +99,13 @@ function Books() {
   const clearError = () => {
     setError(null);
   };
+
   return (
     <React.Fragment>
       <MDBContainer>
+        <Notification notification={notify} />
         <h1 className="text-center my-3">Book Manager</h1>
+
         {error && <ErrorModal onClose={clearError}>{error}</ErrorModal>}
         <MDBRow>
           <MDBCol>
@@ -103,6 +122,7 @@ function Books() {
             ) : (
               <>
                 <h2>Add Book</h2>
+
                 <AddBookForm addBook={addBook} loading={isLoading} />
               </>
             )}

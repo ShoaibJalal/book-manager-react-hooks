@@ -8,6 +8,7 @@ import {
   MDBCardTitle,
   MDBCardText,
   MDBContainer,
+  MDBRow,
   MDBCol
 } from "mdbreact";
 
@@ -19,17 +20,19 @@ const Login = () => {
   };
   return (
     <MDBContainer className="login">
-      <MDBCol>
-        <MDBCard style={{ width: "22rem" }}>
-          <MDBCardBody>
-            <MDBCardTitle>You are not Logged In.</MDBCardTitle>
-            <MDBCardText>Please Login to continue!</MDBCardText>
-            <MDBBtn color="pink" onClick={loginHandler}>
-              Login
-            </MDBBtn>
-          </MDBCardBody>
-        </MDBCard>
-      </MDBCol>
+      <MDBRow>
+        <MDBCol>
+          <MDBCard>
+            <MDBCardBody>
+              <MDBCardTitle>You are not Logged In.</MDBCardTitle>
+              <MDBCardText>Please Login to continue!</MDBCardText>
+              <MDBBtn color="pink" onClick={loginHandler}>
+                Login
+              </MDBBtn>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+      </MDBRow>
     </MDBContainer>
   );
 };

@@ -116,7 +116,36 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div data-test="container" class="container login">
+        <div data-test="row" class="row">
+          <div data-test="col" class="col">
+            <div data-test="card" class="card">
+              <div data-test="card-body" class="card-body">
+                <h4 data-test="card-title" class="card-title">
+                  You are not Logged In.
+                </h4>
+                <p data-test="card-text" class="card-text">
+                  Please Login to continue!
+                </p>
+                <button
+                  data-test="button"
+                  type="button"
+                  class="btn-pink btn Ripple-parent"
+                >
+                  Login
+                  <div
+                    data-test="waves"
+                    class="Ripple "
+                    style="top: 0px; left: 0px; width: 0px; height: 0px;"
+                  ></div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.

@@ -26,7 +26,10 @@ const Login = () => {
             <MDBCardBody>
               <MDBCardTitle>You are not Logged In.</MDBCardTitle>
               <MDBCardText>Please Login to continue!</MDBCardText>
-              <MDBBtn color="pink" onClick={loginHandler}>
+              <MDBBtn
+                className="btn btn-outline-info waves-effect"
+                onClick={loginHandler}
+              >
                 Login
               </MDBBtn>
             </MDBCardBody>

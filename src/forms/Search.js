@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { MDBCol, MDBIcon } from "mdbreact";
 
-const Search = React.memo(props => {
+const Search = React.memo((props) => {
   const { onFetchedBooks } = props;
   const [enteredFilter, setEnteredFilter] = useState("");
+
   const inputRef = useRef();
 
   useEffect(() => {
@@ -16,17 +17,21 @@ const Search = React.memo(props => {
         fetch(
           "https://react-hooks-books-manager.firebaseio.com/books.json" + query
         )
-          .then(response => response.json())
-          .then(responseData => {
+          .then((response) => response.json())
+          .then((responseData) => {
             const fetchedBooks = [];
             for (const key in responseData) {
               fetchedBooks.push({
                 id: key,
                 author: responseData[key].author,
-                name: responseData[key].name
+                name: responseData[key].name,
               });
             }
             onFetchedBooks(fetchedBooks);
+            localStorage.setItem("fetchedBooks", JSON.stringify(fetchedBooks));
+          })
+          .catch((error) => {
+            console.log(error);
           });
       }
     }, 500);
@@ -46,7 +51,7 @@ const Search = React.memo(props => {
           aria-label="Search"
           ref={inputRef}
           value={enteredFilter}
-          onChange={event => setEnteredFilter(event.target.value)}
+          onChange={(event) => setEnteredFilter(event.target.value)}
         />
       </form>
     </MDBCol>

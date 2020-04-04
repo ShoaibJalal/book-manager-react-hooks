@@ -18,11 +18,18 @@ function Books() {
   const [error, setError] = useState();
   const [notify, setNotify] = useState("");
 
-  const filteredBooksHandler = useCallback(filteredBooks => {
+  const filteredBooksHandler = useCallback((filteredBooks) => {
     setBooks(filteredBooks);
   }, []);
 
-  const editBook = book => {
+  useEffect(() => {
+    if (!navigator.onLine) {
+      let offlineBooks = JSON.parse(localStorage.getItem("fetchedBooks"));
+      setBooks(offlineBooks);
+    }
+  }, []);
+
+  const editBook = (book) => {
     setEditing(true);
     setCurrentBook({ id: book.id, name: book.name, author: book.author });
   };
@@ -33,14 +40,14 @@ function Books() {
     fetch(`https://react-hooks-books-manager.firebaseio.com/books/${id}.json`, {
       method: "PUT",
       body: JSON.stringify(updatedBook),
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     })
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
       .then(() => {
-        setBooks(previousBooks =>
-          previousBooks.map(book => (book.id === id ? updatedBook : book))
+        setBooks((previousBooks) =>
+          previousBooks.map((book) => (book.id === id ? updatedBook : book))
         );
       });
   };
@@ -59,39 +66,39 @@ function Books() {
     };
   }, []);
 
-  const addBook = book => {
+  const addBook = (book) => {
     setIsLoading(true);
     fetch("https://react-hooks-books-manager.firebaseio.com/books.json", {
       method: "POST",
       body: JSON.stringify(book),
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "application/json" },
     })
-      .then(response => {
+      .then((response) => {
         setIsLoading(false);
         return response.json();
       })
-      .then(responseData => {
-        setBooks(previousBooks => [
+      .then((responseData) => {
+        setBooks((previousBooks) => [
           ...previousBooks,
           {
             ...book,
-            id: responseData.name
-          }
+            id: responseData.name,
+          },
         ]);
       });
   };
 
-  const deleteBook = id => {
+  const deleteBook = (id) => {
     setIsLoading(true);
     fetch(`https://react-hooks-books-manager.firebaseio.com/books/${id}.json`, {
-      method: "DELETE"
+      method: "DELETE",
     })
-      .then(response => {
+      .then((response) => {
         setIsLoading(false);
         setEditing(false);
-        setBooks(books.filter(book => book.id !== id));
+        setBooks(books.filter((book) => book.id !== id));
       })
-      .catch(error => {
+      .catch((error) => {
         setError("Something went wrong!");
         setIsLoading(false);
       });
